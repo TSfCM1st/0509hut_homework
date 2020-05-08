@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.forms',  # 足す
 ]
 
 MIDDLEWARE = [
@@ -128,4 +129,6 @@ MEDIA_URL = '/images/'
 #認証 5/3 hasegawa LOGIN後にリダイレクトされるページをトップページにする
 
 LOGIN_REDIRECT_URL = "/"
+
+FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 

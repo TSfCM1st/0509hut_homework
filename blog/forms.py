@@ -1,11 +1,16 @@
 from django import forms
 from django.forms import ModelForm,TextInput,Textarea
 from .models import Category, Post, Comment, Reply
+from .widgets import FileInputWithPreview
+
 
 class PostCreateForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = '__all__'
+        widgets = {
+            'image': FileInputWithPreview,
+        }
 
 class CommentForm(ModelForm):
     class Meta:
