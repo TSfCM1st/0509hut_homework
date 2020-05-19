@@ -16,4 +16,6 @@ urlpatterns = [
     path('reply/<int:pk>/', views.ReplyFormView.as_view(), name='reply_form'),
     path('reply/<int:pk>/approve/', views.reply_approve, name='reply_approve'),
     path('reply/<int:pk>/remove/', views.reply_remove, name='reply_remove'),
+    path('like/<int:post_id>/<int:user_id>',views.like,name='like'),
 ]
+

@@ -1,12 +1,13 @@
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin  # 追加
+from django.http.response import JsonResponse #like
 from django.contrib.auth.decorators import login_required
 
 from django.views import generic
 from django.urls import reverse_lazy
 from .forms import PostCreateForm, CommentForm, ReplyForm
-from .models import Post, Category,Comment, Reply
+from .models import Post, Category,Comment, Reply, Like
 
 
 class IndexView(generic.ListView):
@@ -40,6 +41,7 @@ class DetailView(generic.DetailView):
     # 詳細画面用
     template_name = 'blog/post_detail.html'
     model = Post
+
 
  
 class AddView(LoginRequiredMixin, generic.CreateView):
@@ -132,3 +134,18 @@ def reply_remove(request, pk):
     reply = get_object_or_404(Reply, pk=pk)
     reply.delete()
     return redirect('blog:detail', pk=reply.comment.post.pk)
+
+@login_required   
+def like(request,post_id,user_id):
+    post = Post.objects.get(pk=post_id)
+    if Like.objects.filter(post_id=post.id,user_id=request.user.id).count() == 0:
+       like = Like(post_id=post, user_id=request.user)
+       like.save()
+       post.like_num += 1
+    else:
+       like = Like.objects.get(post_id=post, user_id=request.user)
+       like.delete()
+       post.like_num -= 1
+
+    post.save() # 保存をする
+    return redirect('blog:detail', pk=post_id)

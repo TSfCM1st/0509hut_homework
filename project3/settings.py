@@ -14,6 +14,7 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROJECT_NAME = os.path.basename(BASE_DIR)
 
 
 # Quick-start development settings - unsuitable for production
@@ -51,7 +52,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
+MESSAGE_STORAGE='django.contrib.messages.storage.session.SessionStorage'
 ROOT_URLCONF = 'project3.urls'
 
 TEMPLATES = [
@@ -122,6 +123,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR,'static')]
+STATIC_ROOT = '/var/www/{}/static'.format(PROJECT_NAME)
 LOGIN_URL = '/accounts/login'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'images')
 MEDIA_URL = '/images/'
